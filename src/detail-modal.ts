@@ -14,17 +14,21 @@ export function openPD(card: HTMLElement): void {
   const imgCol = document.querySelector<HTMLElement>('.pd-img-col')!;
 
   if (d.color) {
-    // Zone: colored circle visual, no image
+    // Zone: show zone image with colored overlay
+    imgCol.style.cssText = '';
+    const dot = imgCol.querySelector('.zone-dot-vis');
+    if (dot) dot.remove();
     const pdImg = document.getElementById('pdImg') as HTMLImageElement;
-    pdImg.style.display = 'none';
-    imgCol.style.cssText = `width:300px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(160deg,${d.color}22 0%,${d.color}55 100%)`;
-    let dot = imgCol.querySelector<HTMLElement>('.zone-dot-vis');
-    if (!dot) {
-      dot = document.createElement('div');
-      dot.className = 'zone-dot-vis';
-      imgCol.appendChild(dot);
+    if (d.img) {
+      pdImg.src = d.img;
+      pdImg.style.display = '';
+      pdImg.style.objectFit = 'cover';
+      pdImg.style.padding = '0';
+      pdImg.style.filter = `brightness(.75) saturate(.9)`;
+    } else {
+      pdImg.src = ''; pdImg.style.display = 'none';
+      imgCol.style.background = `linear-gradient(160deg,${d.color}22 0%,${d.color}55 100%)`;
     }
-    dot.style.cssText = `width:80px;height:80px;border-radius:50%;background:${d.color};box-shadow:0 0 60px ${d.color}88`;
     document.getElementById('pdBadge')!.textContent = d.level || '';
   } else {
     // Principle / racial / forbidden: show image
@@ -64,9 +68,9 @@ export function closePD(e?: Event): void {
     const t = e.target as HTMLElement;
     if (t !== pdOv && !t.classList.contains('pd-close')) return;
   }
-  // Reset imgCol style on close
-  const imgCol = document.querySelector<HTMLElement>('.pd-img-col');
-  if (imgCol) imgCol.style.cssText = '';
+  // Reset pdImg style on close
+  const pdImg = document.getElementById('pdImg') as HTMLImageElement | null;
+  if (pdImg) { pdImg.style.objectFit = ''; pdImg.style.padding = ''; pdImg.style.filter = ''; }
   pdOv.style.display = 'none';
   document.body.style.overflow = '';
 }

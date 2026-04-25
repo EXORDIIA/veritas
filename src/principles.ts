@@ -5,6 +5,8 @@ function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+const CHEVRON = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" width="12" height="12"><polyline points="4,5 8,10 12,5"/></svg>`;
+
 function principlesHTML(): string {
   return principles.map(p => `
     <div class="pcard"
@@ -14,39 +16,31 @@ function principlesHTML(): string {
       <div class="pcard-visual">
         <span class="pnum">${String(p.num).padStart(2, '0')}</span>
         <img class="card-img" src="${p.image}" alt="${esc(p.name)}" loading="lazy"/>
-      </div>
-      <div class="pcard-body">
-        <h4>${esc(p.name.toUpperCase())}</h4>
-        <div class="psub">${esc(p.sub)}</div>
-        <div class="pdivider"></div>
-        <div class="prow">
-          <div class="plabel">Effet</div>
-          <div class="ptext">${esc(p.effect)}</div>
-        </div>
-        <div class="prow">
-          <div class="plabel">Utilisation</div>
-          <div class="ptext">${esc(p.usage)}</div>
+        <div class="pcard-peek">
+          <div class="pcard-peek-name">${esc(p.name.toUpperCase())}</div>
+          <div class="pcard-peek-sub">${esc(p.sub)}</div>
+          <span class="pcard-peek-arrow">${CHEVRON}</span>
         </div>
       </div>
     </div>`).join('\n');
 }
 
 function racialHTML(entries: typeof racialBasic, signature: boolean): string {
-  const cls = signature ? 'rcard signature' : 'rcard';
+  const cls   = signature ? 'rcard signature' : 'rcard';
   const badge = signature ? 'Signature' : 'Technique Raciale';
   return entries.map(r => `
     <div class="${cls}"
       data-name="${esc(r.name.toUpperCase())}" data-sub="${esc(r.sub)}"
-      data-effect="${esc(r.effect)}" data-race="${esc(r.race)}"
+      data-effect="${esc(r.effect)}" data-usage="${esc(r.usage)}"
+      data-race="${esc(r.race)}"
       data-badge="${badge}" data-img="${r.image}">
       <div class="rcard-visual">
         <img class="card-img" src="${r.image}" alt="${esc(r.name)}" loading="lazy"/>
-      </div>
-      <div class="rcard-body">
-        <h4>${esc(r.name.toUpperCase())}</h4>
-        <div class="rsub">${esc(r.sub)}</div>
-        <div class="rrace">${esc(r.race)}</div>
-        <div class="reffect">${esc(r.effect)}</div>
+        <div class="rcard-peek">
+          <div class="rcard-peek-name">${esc(r.name.toUpperCase())}</div>
+          <div class="rcard-peek-sub">${esc(r.sub)} &middot; ${esc(r.race)}</div>
+          <span class="rcard-peek-arrow">${CHEVRON}</span>
+        </div>
       </div>
     </div>`).join('\n');
 }
@@ -55,19 +49,15 @@ function forbiddenHTML(): string {
   return forbidden.map(f => `
     <div class="fcard"
       data-name="${esc(f.name.toUpperCase())}" data-sub="${esc(f.sub)}"
-      data-effect="${esc(f.effect)}" data-drawback="${esc(f.drawback)}"
+      data-effect="${esc(f.effect)}" data-usage="${esc(f.usage)}"
+      data-drawback="${esc(f.drawback)}"
       data-badge="Technique Interdite" data-img="${f.image}">
       <div class="fcard-visual">
         <img class="card-img" src="${f.image}" alt="${esc(f.name)}" loading="lazy"/>
-      </div>
-      <div class="fcard-body">
-        <h4>${esc(f.name.toUpperCase())}</h4>
-        <div class="fsub">${esc(f.sub)}</div>
-        <div class="fdivider"></div>
-        <div class="feffect">${esc(f.effect)}</div>
-        <div class="fwarning">
-          <strong>Inconvénient</strong>
-          ${esc(f.drawback)}
+        <div class="fcard-peek">
+          <div class="fcard-peek-name">${esc(f.name.toUpperCase())}</div>
+          <div class="fcard-peek-sub">${esc(f.sub)}</div>
+          <span class="fcard-peek-arrow">${CHEVRON}</span>
         </div>
       </div>
     </div>`).join('\n');
