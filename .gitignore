@@ -38,3 +38,7 @@ desktop.ini
 # Env
 .env
 .env.local
+
+# Unused / maybe later
+# High-res map variant — 75MB, kept locally for potential future use
+public/images/MAPHD.png
