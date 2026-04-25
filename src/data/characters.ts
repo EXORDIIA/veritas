@@ -1,3 +1,5 @@
+import { SPECIALTIES } from './specialties';
+
 export interface Character {
   name: string;
   image: string;
@@ -82,4 +84,4 @@ export const characters: Character[] = [
   { name: "XAMA SINEAR",            image: "/images/XAMA SINEAR.png",            facePosition: "top center", age: "76",  bloodType: "A-",   height: "167", nationality: "Nahr",            race: "Lian" },
   { name: "XERINA AURIEL",          image: "/images/XERINA AURIEL.png",          facePosition: "top center", age: "X",   bloodType: "V-",   height: "163", nationality: "Corinda",         race: "Corindian" },
   { name: "YAKUDA KHADAGCHI",       image: "/images/YAKUDA KHADAGCHI.png",       facePosition: "top center", age: "31",  bloodType: "B+",   height: "190", nationality: "Alkyrta",         race: "Elf" },
-];
+].map(c => ({ ...c, specialty: SPECIALTIES[c.name] || '' }));
