@@ -1,4 +1,4 @@
-import { loreIntro, races, zones, threatLevels } from './data/lore';
+import { races, zones, threatLevels } from './data/lore';
 import { ZONE_DATA } from './detail-modal';
 
 function esc(s: string): string {
