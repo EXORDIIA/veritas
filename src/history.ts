@@ -106,14 +106,7 @@ export function renderHistory(): void {
     </div>
 
     <div class="section">
-      <h3><span class="shead-sub">Chapter I</span>The Energy of Ruth</h3>
-      <div class="prose">
-        ${loreIntro.map(p => `<p>${esc(p)}</p>`).join('\n')}
-      </div>
-    </div>
-
-    <div class="section">
-      <h3><span class="shead-sub">Chapter II</span>The Races of Azertya</h3>
+      <h3><span class="shead-sub">Chapter I</span>The Races of Azertya</h3>
       <div class="racegrid">
         ${races.map(r => {
           const img = RACE_IMAGES[r.name];
@@ -130,7 +123,7 @@ export function renderHistory(): void {
     </div>
 
     <div class="section">
-      <h3><span class="shead-sub">Chapter III</span>Creatures of Azertya</h3>
+      <h3><span class="shead-sub">Chapter II</span>Creatures of Azertya</h3>
 
       <div class="zone-intro">
         <img class="zone-intro-img" src="/Places/0.png" alt="Azertya wilderness" loading="lazy"/>
@@ -169,7 +162,7 @@ export function renderHistory(): void {
     </div>
 
     <div class="section">
-      <h3><span class="shead-sub">Chapter IV</span>Threat Levels</h3>
+      <h3><span class="shead-sub">Chapter III</span>Threat Levels</h3>
       <div class="prose">
         <p>The Azertyan authorities classify all known creatures across ten escalating tiers of threat — from harmless companions to reality-warping entities capable of cosmic destruction.</p>
       </div>
