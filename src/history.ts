@@ -1,5 +1,5 @@
 import { loreIntro, races, zones, threatLevels } from './data/lore';
-import { ZONE_DATA, openPD } from './detail-modal';
+import { ZONE_DATA } from './detail-modal';
 
 function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -19,6 +19,50 @@ const RACE_IMAGES: Record<string, string> = {
   Elves:      '/Races/Elfs.png',
   Arciaics:   '/Races/Arcaics.png',
 };
+
+const ZONE_COLORS: Record<string, string> = {
+  green: '#4caf50', yellow: '#f9c74f', orange: '#f3722c', red: '#e63946', black: '#444',
+};
+const ZONE_LEVELS: Record<string, string> = {
+  green: 'Threat Level 1–2', yellow: 'Threat Level 3–4', orange: 'Threat Level 5–7', red: 'Threat Level 8–9', black: 'Threat Level 10+',
+};
+
+function initZoneModal(): void {
+  const ov    = document.getElementById('zoneOv')!;
+  const img   = document.getElementById('zoneImg') as HTMLImageElement;
+  const name  = document.getElementById('zoneName')!;
+  const dot   = document.getElementById('zoneDot') as HTMLElement;
+  const level = document.getElementById('zoneLevel')!;
+  const desc  = document.getElementById('zoneDesc')!;
+
+  function open(card: HTMLElement) {
+    const cls  = ['green','yellow','orange','red','black'].find(c => card.classList.contains(c)) ?? 'green';
+    const color = ZONE_COLORS[cls];
+    img.src = card.dataset.img ?? '';
+    img.alt = card.dataset.name ?? '';
+    name.textContent = (card.dataset.name ?? '').toUpperCase();
+    dot.style.background = color;
+    dot.style.boxShadow  = `0 0 14px ${color}`;
+    level.textContent    = ZONE_LEVELS[cls] ?? '';
+    level.style.color    = color;
+    desc.textContent     = card.dataset.effect ?? '';
+    ov.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    ov.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  ov.addEventListener('click', e => { if (e.target === ov) close(); });
+  document.getElementById('zoneClose')!.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  document.addEventListener('click', e => {
+    const card = (e.target as HTMLElement).closest<HTMLElement>('.zone-card');
+    if (card) open(card);
+  });
+}
 
 function initRaceModal(): void {
   const ov    = document.getElementById('raceOv')!;
@@ -145,9 +189,6 @@ export function renderHistory(): void {
     </div>
   `;
 
-  container.querySelectorAll<HTMLElement>('.zone-card').forEach(z => {
-    z.addEventListener('click', () => openPD(z));
-  });
-
+  initZoneModal();
   initRaceModal();
 }
