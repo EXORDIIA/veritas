@@ -20,36 +20,35 @@ const RACE_IMAGES: Record<string, string> = {
   Arciaics:   '/Races/Arcaics.png',
 };
 
-function initRaceLightbox(): void {
-  // Build lightbox DOM once
-  const lb = document.createElement('div');
-  lb.id = 'raceLightbox';
-  lb.innerHTML = `<div class="lb-backdrop"></div><div class="lb-content"><img class="lb-img" src="" alt=""/><button class="lb-close" aria-label="Fermer">&times;</button></div>`;
-  document.body.appendChild(lb);
+function initRaceModal(): void {
+  const ov    = document.getElementById('raceOv')!;
+  const img   = document.getElementById('raceImg') as HTMLImageElement;
+  const name  = document.getElementById('raceName')!;
+  const desc  = document.getElementById('raceDesc')!;
 
-  const img = lb.querySelector<HTMLImageElement>('.lb-img')!;
-
-  function open(src: string, alt: string) {
-    img.src = src;
-    img.alt = alt;
-    lb.classList.add('open');
+  function open(src: string, raceName: string, raceDesc: string) {
+    img.src  = src;
+    img.alt  = raceName;
+    name.textContent = raceName.toUpperCase();
+    desc.textContent = raceDesc;
+    ov.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
   function close() {
-    lb.classList.remove('open');
+    ov.classList.remove('open');
     document.body.style.overflow = '';
   }
 
-  lb.querySelector('.lb-backdrop')!.addEventListener('click', close);
-  lb.querySelector('.lb-close')!.addEventListener('click', close);
+  ov.addEventListener('click', e => { if (e.target === ov) close(); });
+  document.getElementById('raceClose')!.addEventListener('click', close);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 
-  // Attach to racecards after render
+  // Store race desc on each card as data attribute during render, then listen
   document.addEventListener('click', e => {
     const card = (e.target as HTMLElement).closest<HTMLElement>('.racecard');
     if (!card) return;
     const cardImg = card.querySelector<HTMLImageElement>('img');
-    if (cardImg) open(cardImg.src, cardImg.alt);
+    if (cardImg) open(cardImg.src, card.dataset.raceName ?? '', card.dataset.raceDesc ?? '');
   });
 }
 
@@ -75,7 +74,7 @@ export function renderHistory(): void {
         ${races.map(r => {
           const img = RACE_IMAGES[r.name];
           return `
-          <div class="racecard">
+          <div class="racecard" data-race-name="${esc(r.name)}" data-race-desc="${esc(r.desc)}">
             ${img ? `<div class="racecard-img"><img src="${img}" alt="${esc(r.name)}"/></div>` : ''}
             <div class="racecard-body"><h4>${esc(r.name)}</h4><p>${esc(r.desc)}</p></div>
           </div>`;
@@ -150,5 +149,5 @@ export function renderHistory(): void {
     z.addEventListener('click', () => openPD(z));
   });
 
-  initRaceLightbox();
+  initRaceModal();
 }
