@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# TypeScript compiled JS (source of truth is .ts files)
+src/**/*.js
+src/data/**/*.js
+
+# Backup / legacy files
+index_backup_i18n.html
+index_generated_backup.html
+characters.js
+
+# Heavy source documents (not needed for the build)
+*.xlsx
+*.docx
+*.pdf
+INFOS_PERSONNAGES.txt
+
+# Utility / dev scripts
+build.py
+make_excel.py
+calibrate_map.html
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env
+.env
+.env.local

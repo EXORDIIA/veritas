@@ -1,0 +1,22 @@
+import './style.css';
+import { initI18n } from './i18n';
+import { initTheme } from './theme';
+import { initTabs } from './tabs';
+import { initCharacters } from './characters';
+import { initMap, centerMap } from './map';
+import { initMusic } from './music';
+import { initPrinciples } from './principles';
+import { renderHistory } from './history';
+import { initReveal } from './reveal';
+import { initDetailModal } from './detail-modal';
+
+renderHistory();
+initPrinciples();
+initDetailModal();
+initCharacters();
+initMap();
+initTabs(centerMap);
+initMusic();
+initI18n();
+initTheme();
+initReveal();

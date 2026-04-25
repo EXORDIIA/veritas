@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr" id="htmlRoot">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VERITAS - Univers Azertya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="blob blob1" aria-hidden="true"></div>
+  <div class="blob blob2" aria-hidden="true"></div>
+  <div class="blob blob3" aria-hidden="true"></div>
+
+  <audio id="bgMusic" src="/audio/Echoes Azertya (Epic Progressive Bounce Remix).mp3" loop preload="auto"></audio>
+
+  <div id="splash">
+    <div class="sp-bg" style="background-image:url('/images/page.png')"></div>
+    <div class="sp-vignette"></div>
+    <div class="sp-shine"></div>
+    <div class="sp-content">
+      <div class="sp-title">VERITAS</div>
+      <div class="sp-ornament"></div>
+      <div class="sp-sub" data-i18n="brand_sub">Univers Azertya</div>
+      <div class="sp-enter" data-i18n-html="splash_btn">&#9654;&ensp;Entrer dans l'univers</div>
+    </div>
+  </div>
+
+  <header>
+    <div class="brand">
+      <h1>VERITAS</h1>
+      <span class="sub" data-i18n="brand_sub">Univers Azertya</span>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-tab="characters">
+        <span data-i18n="tab_chars">Personnages</span> <span class="cbadge" id="cnt">0</span>
+      </button>
+      <button class="tab" data-tab="map"><span data-i18n="tab_map">Carte</span></button>
+      <button class="tab" data-tab="history"><span data-i18n="tab_lore">Histoire</span></button>
+      <button class="tab" data-tab="principles"><span data-i18n="tab_principles">Principes de Ruth</span></button>
+    </div>
+    <div class="hright">
+      <button class="music-btn" id="themeBtn" title="Mode clair" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="music-btn" id="musicBtn" title="Stop music" aria-label="Toggle music">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+          <rect x="6" y="4" width="4" height="16"/>
+          <rect x="14" y="4" width="4" height="16"/>
+        </svg>
+      </button>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="fr" title="Version française">FR</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" data-lang="en" title="English version">EN</button>
+      </div>
+      <div class="sw visible" id="sw">
+        <span class="si">&#128269;</span>
+        <input type="text" id="srch" placeholder="Rechercher..." data-i18n-ph="search_ph" autocomplete="off" />
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="panel active" id="charactersPanel">
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="panel" id="mapPanel">
+      <div id="mapStage">
+        <img id="mapImg" src="/images/MAP.png" alt="Map of Azertya" />
+      </div>
+      <div class="mzoom" id="mzoom">100%</div>
+      <div class="mapctl">
+        <button class="mbtn" id="zin" title="Zoom in">+</button>
+        <button class="mbtn" id="zrst" title="Recenter">&#8962;</button>
+        <button class="mbtn" id="zout" title="Zoom out">-</button>
+      </div>
+      <div class="mhint"><span data-i18n="map_hint">Molette&nbsp;: zoom &middot; Glisser&nbsp;: déplacer &middot; Double-clic&nbsp;: recentrer</span></div>
+    </div>
+
+    <div class="panel" id="historyPanel">
+      <div class="container" id="historyContainer"></div>
+    </div>
+
+    <div class="panel" id="principlesPanel">
+      <div class="pcontainer" id="principlesContainer"></div>
+    </div>
+  </main>
+
+  <!-- CHARACTER MODAL -->
+  <div class="ov" id="ov">
+    <div class="modal">
+      <div class="mt">
+        <div class="mic">
+          <div class="mab"></div>
+          <img id="mi" src="" alt="" />
+        </div>
+        <div class="mif">
+          <div class="mn">
+            <span class="mover" data-i18n="modal_mover">Personnage</span>
+            <span id="mn"></span>
+          </div>
+          <div class="dv"></div>
+          <div class="mfields">
+            <div class="mfield"><div class="mflabel">Age</div><div class="mfval" id="mAge">—</div></div>
+            <div class="mfield"><div class="mflabel" data-i18n="modal_blood">Groupe Sanguin</div><div class="mfval" id="mBlood">—</div></div>
+            <div class="mfield"><div class="mflabel" data-i18n="modal_height">Taille</div><div class="mfval" id="mHeight">—</div></div>
+            <div class="mfield"><div class="mflabel" data-i18n="modal_nat">Nationalité</div><div class="mfval" id="mNat">—</div></div>
+            <div class="mfield mfield-full"><div class="mflabel">Race</div><div class="mfval" id="mRace">—</div></div>
+            <div class="mfield mfield-full"><div class="mflabel" data-i18n="modal_power_lbl">Spécialité / Pouvoir</div><div class="mfval mfval-box" id="mPower">—</div></div>
+            <div class="mfield mfield-full" id="mMapRow" style="display:none">
+              <div class="mflabel" data-i18n="modal_region">Région sur la carte</div>
+              <div class="mmap-wrap"><div class="mmap-bg" id="mMapBg"></div><div class="mmap-dot"></div><div class="mmap-label" id="mMapLbl"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mfoot">
+        <span class="mchap" id="mChap">Chapitre —</span>
+        <button class="bcl" id="closeModal" data-i18n="modal_close">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINCIPLE / RACIAL / FORBIDDEN DETAIL MODAL -->
+  <div class="ov" id="pdOv">
+    <div class="pd-modal">
+      <button class="pd-close" id="pdClose" aria-label="Fermer">&times;</button>
+      <div class="pd-img-col"><img id="pdImg" src="" alt="" /></div>
+      <div class="pd-info-col">
+        <div class="pd-header">
+          <span class="pd-badge" id="pdBadge"></span>
+          <span class="pd-race-tag" id="pdRaceTag" style="display:none"></span>
+        </div>
+        <h2 class="pd-name" id="pdName"></h2>
+        <div class="pd-subtitle" id="pdSub"></div>
+        <div class="pd-divider"></div>
+        <div class="pd-section">
+          <div class="pd-label" data-i18n="pd_effect">Effet</div>
+          <div class="pd-text" id="pdEffect"></div>
+        </div>
+        <div class="pd-section" id="pdUsageRow">
+          <div class="pd-label" data-i18n="pd_usage">Utilisation</div>
+          <div class="pd-text" id="pdUsage"></div>
+        </div>
+        <div class="pd-drawback-box" id="pdDrawbackRow" style="display:none">
+          <div class="pd-label" data-i18n="pd_drawback">Inconvénient</div>
+          <div class="pd-text" id="pdDrawback"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
