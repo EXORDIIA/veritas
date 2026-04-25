@@ -1,7 +1,7 @@
 const STRINGS = {
   fr: {
     brand_sub: 'Univers Azertya',
-    tab_chars: 'Personnages', tab_map: 'Carte', tab_lore: 'Histoire', tab_principles: 'Principes de Ruth',
+    tab_chars: 'Personnages', tab_map: 'Carte', tab_ruth: "L'Énergie de Ruth", tab_lore: 'Histoire', tab_principles: 'Principes de Ruth',
     search_ph: 'Rechercher...',
     splash_btn: '&#9654;&ensp;Entrer dans l\'univers',
     map_hint: 'Molette : zoom &middot; Glisser : déplacer &middot; Double-clic : recentrer',
@@ -19,7 +19,7 @@ const STRINGS = {
   },
   en: {
     brand_sub: 'Universe of Azertya',
-    tab_chars: 'Characters', tab_map: 'Map', tab_lore: 'Lore', tab_principles: 'Principles of Ruth',
+    tab_chars: 'Characters', tab_map: 'Map', tab_ruth: 'The Energy of Ruth', tab_lore: 'Lore', tab_principles: 'Principles of Ruth',
     search_ph: 'Search...',
     splash_btn: '&#9654;&ensp;Enter the Universe',
     map_hint: 'Scroll: zoom &middot; Drag: move &middot; Double-click: reset',

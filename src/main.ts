@@ -9,8 +9,10 @@ import { initPrinciples } from './principles';
 import { renderHistory } from './history';
 import { initReveal } from './reveal';
 import { initDetailModal } from './detail-modal';
+import { initRuthLore } from './ruth-lore';
 
 renderHistory();
+initRuthLore();
 initPrinciples();
 initDetailModal();
 initCharacters();
