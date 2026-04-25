@@ -68,7 +68,7 @@ export function initRuthLore(): void {
     ${SECTIONS.map((s, i) => {
       const imgLeft = i % 2 === 0;
       return `
-      <div class="rl-section reveal ${imgLeft ? 'rl-img-left' : 'rl-img-right'}">
+      <div class="rl-section ${imgLeft ? 'rl-img-left' : 'rl-img-right'}" style="animation-delay:${i * 80}ms">
         <div class="rl-img-wrap">
           <img src="${s.img}" alt="${esc(s.imgAlt)}" loading="lazy"/>
           <div class="rl-img-frame"></div>
