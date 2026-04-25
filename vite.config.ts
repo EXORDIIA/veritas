@@ -14,6 +14,7 @@ function relativePublicPaths(): Plugin {
             .replace(/(['"`])\/RUTH\//g,    '$1./RUTH/')
             .replace(/(['"`])\/Zones\//g,   '$1./Zones/')
             .replace(/(['"`])\/Places\//g,  '$1./Places/')
+            .replace(/(['"`])\/Races\//g,   '$1./Races/')
             .replace(/(['"`])\/audio\//g,   '$1./audio/')
         }
       }

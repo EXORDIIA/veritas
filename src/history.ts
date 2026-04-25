@@ -13,12 +13,45 @@ function threatClass(level: number): string {
 }
 
 const RACE_IMAGES: Record<string, string> = {
-  Lians:      '/images/LIANS.png',
-  Corindians: '/images/CORINDIANS.png',
-  Humans:     '/images/HUMANS.png',
-  Elves:      '/images/ELFS.png',
-  Arciaics:   '/images/ARCAIS.png',
+  Lians:      '/Races/Lians.png',
+  Corindians: '/Races/Corndians.png',
+  Humans:     '/Races/Humans.png',
+  Elves:      '/Races/Elfs.png',
+  Arciaics:   '/Races/Arcaics.png',
 };
+
+function initRaceLightbox(): void {
+  // Build lightbox DOM once
+  const lb = document.createElement('div');
+  lb.id = 'raceLightbox';
+  lb.innerHTML = `<div class="lb-backdrop"></div><div class="lb-content"><img class="lb-img" src="" alt=""/><button class="lb-close" aria-label="Fermer">&times;</button></div>`;
+  document.body.appendChild(lb);
+
+  const img = lb.querySelector<HTMLImageElement>('.lb-img')!;
+
+  function open(src: string, alt: string) {
+    img.src = src;
+    img.alt = alt;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  lb.querySelector('.lb-backdrop')!.addEventListener('click', close);
+  lb.querySelector('.lb-close')!.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  // Attach to racecards after render
+  document.addEventListener('click', e => {
+    const card = (e.target as HTMLElement).closest<HTMLElement>('.racecard');
+    if (!card) return;
+    const cardImg = card.querySelector<HTMLImageElement>('img');
+    if (cardImg) open(cardImg.src, cardImg.alt);
+  });
+}
 
 export function renderHistory(): void {
   const container = document.getElementById('historyContainer')!;
@@ -116,4 +149,6 @@ export function renderHistory(): void {
   container.querySelectorAll<HTMLElement>('.zone-card').forEach(z => {
     z.addEventListener('click', () => openPD(z));
   });
+
+  initRaceLightbox();
 }
