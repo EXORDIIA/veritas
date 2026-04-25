@@ -1,13 +1,18 @@
-const mapStage = document.getElementById('mapStage') as HTMLElement;
-const mapImg   = document.getElementById('mapImg')   as HTMLImageElement;
-const zoomInd  = document.getElementById('mzoom')    as HTMLElement;
+const mapStage  = document.getElementById('mapStage')     as HTMLElement;
+const mapImg    = document.getElementById('mapImg')        as HTMLImageElement;
+const zoomInd   = document.getElementById('mzoom')        as HTMLElement;
+const pinsLayer = document.getElementById('mapPinsLayer') as HTMLElement;
 
 let mScale = 1, mTX = 0, mTY = 0, mMin = 0.2, mMax = 6, natW = 0, natH = 0;
 
 function applyMap(): void {
-  mapImg.style.transform = `translate(${mTX}px,${mTY}px) scale(${mScale})`;
+  const t = `translate(${mTX}px,${mTY}px) scale(${mScale})`;
+  mapImg.style.transform    = t;
+  pinsLayer.style.transform = t;
   zoomInd.textContent = Math.round(mScale * 100) + '%';
 }
+
+export function getMapState() { return { mTX, mTY, mScale, natW, natH }; }
 
 export function centerMap(): void {
   if (!natW || !natH) return;

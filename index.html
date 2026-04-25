@@ -73,6 +73,14 @@
         <img id="mapImg" src="/images/MAP.png" alt="Map of Azertya" />
       </div>
       <div class="mzoom" id="mzoom">100%</div>
+      <!-- Interactive pins layer (same transform as mapImg) -->
+      <div id="mapPinsLayer"></div>
+      <!-- Nationality popup -->
+      <div id="natPopup" class="nat-popup">
+        <button class="nat-popup-close" id="natPopupClose">&times;</button>
+        <div class="nat-popup-name" id="natPopupName"></div>
+        <div class="nat-popup-faces" id="natPopupFaces"></div>
+      </div>
       <div class="mapctl">
         <button class="mbtn" id="zin" title="Zoom in">+</button>
         <button class="mbtn" id="zrst" title="Recenter">&#8962;</button>

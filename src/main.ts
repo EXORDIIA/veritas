@@ -10,6 +10,7 @@ import { renderHistory } from './history';
 import { initReveal } from './reveal';
 import { initDetailModal } from './detail-modal';
 import { initRuthLore } from './ruth-lore';
+import { initMapInteractive } from './map-interactive';
 
 renderHistory();
 initRuthLore();
@@ -17,6 +18,7 @@ initPrinciples();
 initDetailModal();
 initCharacters();
 initMap();
+initMapInteractive();
 initTabs(centerMap);
 initMusic();
 initI18n();

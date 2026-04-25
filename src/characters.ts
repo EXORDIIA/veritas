@@ -57,6 +57,8 @@ function setField(id: string, value: string | undefined): void {
   if (el) el.textContent = (value && value.trim()) ? value : '—';
 }
 
+export function openCharacterModal(c: Character): void { openModal(c); }
+
 function openModal(c: Character): void {
   const mi = document.getElementById('mi') as HTMLImageElement;
   mi.src = c.image;
