@@ -65,7 +65,12 @@ function initZoneModal(): void {
 
   document.addEventListener('click', e => {
     const card = (e.target as HTMLElement).closest<HTMLElement>('.zone-card');
-    if (card) open(card);
+    if (!card) return;
+    if (card.classList.contains('black')) {
+      openBlackZoneFlow(card, open);
+    } else {
+      open(card);
+    }
   });
 }
 
@@ -159,7 +164,9 @@ export function renderHistory(): void {
                 <div class="zonedot"></div>
                 <h5>${esc(z.name)}</h5>
               </div>
-              <p>${esc(z.desc)}</p>
+              ${z.cls === 'black'
+                ? `<p class="zone-black-warning">You were never meant to see this.<br>Access is forbidden beyond this point.<br>Turn back—while you still can.</p>`
+                : `<p>${esc(z.desc)}</p>`}
             </div>
           </div>`;
           }).join('\n')}
@@ -222,54 +229,71 @@ function initRestrictedCards(): void {
   });
 }
 
-function openRestrictedFlow(desc: string, name: string, img: string, level: string): void {
+// ── Shared interstitial + trace logic ────────────────────
+
+let traceTimer: ReturnType<typeof setTimeout> | null = null;
+
+function showInterstitial(then: () => void): void {
   const ov   = document.getElementById('restrictedOv') as HTMLElement;
   const fill = document.getElementById('restrictedFill') as HTMLElement;
 
   ov.style.display = 'flex';
   fill.style.transition = 'none';
-  fill.style.transform = 'scaleX(1)';
+  fill.style.transform  = 'scaleX(1)';
 
   requestAnimationFrame(() => requestAnimationFrame(() => {
     fill.style.transition = 'transform 3s linear';
     fill.style.transform  = 'scaleX(0)';
   }));
 
-  setTimeout(() => {
-    ov.style.display = 'none';
-    openThreatDetail(desc, name, img, level);
+  setTimeout(() => { ov.style.display = 'none'; then(); }, 3000);
+}
+
+function startTraceTimer(closeTarget: HTMLElement): void {
+  if (traceTimer) clearTimeout(traceTimer);
+  traceTimer = setTimeout(() => {
+    closeTarget.style.display = 'none';
+    closeTarget.classList.remove('open');
+    const traceOv = document.getElementById('traceOv') as HTMLElement;
+    traceOv.style.display = 'block';
+    setTimeout(() => { traceOv.style.display = 'none'; }, 3000);
   }, 3000);
 }
 
-let traceTimer: ReturnType<typeof setTimeout> | null = null;
+function cancelTrace(): void {
+  if (traceTimer) { clearTimeout(traceTimer); traceTimer = null; }
+}
+
+// ── Threat restricted flow ────────────────────────────────
+
+function openRestrictedFlow(desc: string, name: string, img: string, level: string): void {
+  showInterstitial(() => openThreatDetail(desc, name, img, level));
+}
 
 function openThreatDetail(desc: string, name: string, img: string, level: string): void {
   const ov = document.getElementById('threatOv') as HTMLElement;
-  (document.getElementById('threatDetailImg')    as HTMLImageElement).src     = img;
-  (document.getElementById('threatDetailLevel')  as HTMLElement).textContent  = `Level ${level}`;
-  (document.getElementById('threatDetailName')   as HTMLElement).textContent  = name;
-  (document.getElementById('threatDetailDesc')   as HTMLElement).textContent  = desc;
+  (document.getElementById('threatDetailImg')   as HTMLImageElement).src    = img;
+  (document.getElementById('threatDetailLevel') as HTMLElement).textContent = `Level ${level}`;
+  (document.getElementById('threatDetailName')  as HTMLElement).textContent = name;
+  (document.getElementById('threatDetailDesc')  as HTMLElement).textContent = desc;
   ov.style.display = 'flex';
-
-  if (traceTimer) clearTimeout(traceTimer);
-  traceTimer = setTimeout(() => triggerTrace(ov), 3000);
+  startTraceTimer(ov);
 }
 
-function triggerTrace(threatOv: HTMLElement): void {
-  const traceOv = document.getElementById('traceOv') as HTMLElement;
-  threatOv.style.display = 'none';
-  traceOv.style.display  = 'block';
+// ── Zone black restricted flow ────────────────────────────
 
-  setTimeout(() => {
-    traceOv.style.display = 'none';
-  }, 3000);
+function openBlackZoneFlow(card: HTMLElement, openZone: (c: HTMLElement) => void): void {
+  showInterstitial(() => {
+    openZone(card);
+    const zoneOv = document.getElementById('zoneOv') as HTMLElement;
+    startTraceTimer(zoneOv);
+  });
 }
 
-// Cancel trace if modal closed manually
+// Cancel trace on manual close
 document.addEventListener('DOMContentLoaded', () => {
-  const closeTrace = () => {
-    if (traceTimer) { clearTimeout(traceTimer); traceTimer = null; }
-  };
-  document.getElementById('threatClose')?.addEventListener('click', closeTrace);
-  document.getElementById('threatOv')?.addEventListener('click', closeTrace);
+  document.getElementById('threatClose')?.addEventListener('click', cancelTrace);
+  document.getElementById('threatOv')?.addEventListener('click', cancelTrace);
+  document.getElementById('zoneClose')?.addEventListener('click', cancelTrace);
+  document.getElementById('zoneOv')?.addEventListener('click', cancelTrace);
 });

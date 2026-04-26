@@ -564,6 +564,7 @@ main{position:relative;z-index:1}
 
 /* ── RESTRICTED THREAT CARDS ────────────────────────── */
 .threat-restricted-warning{color:#e63946;font-size:.74rem;line-height:1.55;font-weight:600;letter-spacing:.01em;animation:restrictedBlink 1.4s ease-in-out infinite}
+.zone-black-warning{color:#e63946;font-size:.76rem;line-height:1.6;font-weight:600;margin:0;animation:restrictedBlink 1.4s ease-in-out infinite}
 @keyframes restrictedBlink{0%,100%{opacity:1}50%{opacity:.35}}
 
 /* Restricted interstitial overlay */
