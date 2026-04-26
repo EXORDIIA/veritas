@@ -252,7 +252,7 @@ function openThreatDetail(desc: string, name: string, img: string, level: string
   ov.style.display = 'flex';
 
   if (traceTimer) clearTimeout(traceTimer);
-  traceTimer = setTimeout(() => triggerTrace(ov), 5000);
+  traceTimer = setTimeout(() => triggerTrace(ov), 3000);
 }
 
 function triggerTrace(threatOv: HTMLElement): void {
