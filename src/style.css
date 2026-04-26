@@ -161,6 +161,24 @@ header{height:60px;background:rgba(15,10,8,.9);backdrop-filter:blur(32px) satura
 @keyframes pinPulse{0%,100%{box-shadow:0 0 0 3px rgba(212,168,67,.35),0 0 14px rgba(212,168,67,.6)}50%{box-shadow:0 0 0 5px rgba(212,168,67,.2),0 0 22px rgba(212,168,67,.45)}}
 .map-pin-dot{animation:pinPulse 2.4s ease-in-out infinite}
 
+/* Nation list panel */
+.nat-list{position:absolute;top:12px;right:76px;width:190px;background:rgba(15,10,6,.88);border:1px solid var(--border2);border-radius:12px;backdrop-filter:blur(12px);z-index:15;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.6)}
+.nat-list-title{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);padding:12px 14px 8px;border-bottom:1px solid var(--border)}
+.nat-list-items{max-height:320px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+.nat-list-items::-webkit-scrollbar{width:4px}
+.nat-list-items::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.nat-list-item{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;cursor:pointer;transition:background .18s,color .18s;border-bottom:1px solid rgba(62,44,30,.4)}
+.nat-list-item:last-child{border-bottom:none}
+.nat-list-item:hover,.nat-list-item.active{background:rgba(212,168,67,.12)}
+.nat-list-item.active .nat-list-name{color:var(--gold)}
+.nat-list-name{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.08em;color:var(--text2);transition:color .18s}
+.nat-list-item:hover .nat-list-name{color:var(--text)}
+.nat-list-count{font-family:'Cinzel',serif;font-size:.6rem;font-weight:700;color:var(--gold);background:rgba(212,168,67,.12);padding:2px 7px;border-radius:10px;flex-shrink:0}
+
+/* Pin highlight */
+.map-pin.pin-highlight .map-pin-dot{transform:scale(1.5);background:var(--gold2);box-shadow:0 0 0 5px rgba(212,168,67,.5),0 0 30px rgba(212,168,67,1);animation:none}
+.map-pin.pin-highlight .map-pin-label{opacity:1}
+
 /* Nationality popup */
 .nat-popup{position:absolute;bottom:80px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:18px 20px 16px;z-index:20;min-width:280px;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.75),0 0 0 1px rgba(212,168,67,.12) inset;opacity:0;pointer-events:none;transition:opacity .28s var(--ease),transform .28s var(--ease)}
 .nat-popup.open{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}

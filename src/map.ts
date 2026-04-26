@@ -14,6 +14,17 @@ function applyMap(): void {
 
 export function getMapState() { return { mTX, mTY, mScale, natW, natH }; }
 
+export function flyTo(xPct: number, yPct: number, targetScale = 2.2): void {
+  if (!natW || !natH) return;
+  const r = mapStage.getBoundingClientRect();
+  const px = (xPct / 100) * natW;
+  const py = (yPct / 100) * natH;
+  mScale = Math.max(mMin, Math.min(mMax, targetScale));
+  mTX = r.width  / 2 - px * mScale;
+  mTY = r.height / 2 - py * mScale;
+  applyMap();
+}
+
 export function centerMap(): void {
   if (!natW || !natH) return;
   const r = mapStage.getBoundingClientRect();
