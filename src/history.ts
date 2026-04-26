@@ -223,7 +223,8 @@ function initRestrictedCards(): void {
   const threatOvEl = document.getElementById('threatOv') as HTMLElement;
   const closeThreat = () => {
     cancelTrace();
-    threatOvEl.style.display = 'none';
+    threatOvEl.classList.remove('open');
+    document.body.style.overflow = '';
   };
   document.getElementById('threatClose')!.addEventListener('click', closeThreat);
   threatOvEl.addEventListener('click', e => { if (e.target === threatOvEl) closeThreat(); });
@@ -232,12 +233,16 @@ function initRestrictedCards(): void {
 // ── Shared interstitial + trace logic ────────────────────
 
 let traceTimer: ReturnType<typeof setTimeout> | null = null;
+let interstitialTimer: ReturnType<typeof setTimeout> | null = null;
 
 function showInterstitial(then: () => void): void {
+  // Cancel any pending interstitial from a previous click
+  if (interstitialTimer) { clearTimeout(interstitialTimer); interstitialTimer = null; }
+
   const ov   = document.getElementById('restrictedOv') as HTMLElement;
   const fill = document.getElementById('restrictedFill') as HTMLElement;
 
-  ov.style.display = 'flex';
+  ov.classList.add('open');
   fill.style.transition = 'none';
   fill.style.transform  = 'scaleX(1)';
 
@@ -246,15 +251,21 @@ function showInterstitial(then: () => void): void {
     fill.style.transform  = 'scaleX(0)';
   }));
 
-  setTimeout(() => { ov.style.display = 'none'; then(); }, 3000);
+  interstitialTimer = setTimeout(() => {
+    interstitialTimer = null;
+    ov.classList.remove('open');
+    then();
+  }, 3000);
 }
 
 function startTraceTimer(closeTarget: HTMLElement): void {
   if (traceTimer) clearTimeout(traceTimer);
   traceTimer = setTimeout(() => {
     traceTimer = null;
-    closeTarget.style.display = 'none';
+    // Clear inline style + class so next open works normally
+    closeTarget.style.display = '';
     closeTarget.classList.remove('open');
+    document.body.style.overflow = '';
     const traceOv = document.getElementById('traceOv') as HTMLElement;
     traceOv.style.display = 'block';
     setTimeout(() => { traceOv.style.display = 'none'; }, 3000);
@@ -277,7 +288,7 @@ function openThreatDetail(desc: string, name: string, img: string, level: string
   (document.getElementById('threatDetailLevel') as HTMLElement).textContent = `Level ${level}`;
   (document.getElementById('threatDetailName')  as HTMLElement).textContent = name;
   (document.getElementById('threatDetailDesc')  as HTMLElement).textContent = desc;
-  ov.style.display = 'flex';
+  ov.classList.add('open');
   startTraceTimer(ov);
 }
 
