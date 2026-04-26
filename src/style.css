@@ -589,3 +589,9 @@ main{position:relative;z-index:1}
 .threat-detail-name{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin:0}
 .threat-detail-divider{height:1px;background:linear-gradient(90deg,rgba(180,0,0,.4),rgba(180,0,0,.1));margin:4px 0}
 .threat-detail-desc{font-size:.88rem;line-height:1.75;color:var(--text2);margin:0}
+
+/* Trace overlay */
+.trace-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;background:rgba(0,0,0,.55)}
+.trace-line1{font-family:'Cinzel',serif;font-size:clamp(1rem,2.5vw,1.5rem);font-weight:900;letter-spacing:.2em;color:#e63946;text-transform:uppercase;animation:restrictedBlink .8s ease-in-out infinite}
+.trace-line2{font-family:'Cinzel',serif;font-size:clamp(.8rem,2vw,1.1rem);color:#e63946;letter-spacing:.1em;animation:restrictedBlink .8s ease-in-out infinite .15s}
+.trace-line3{font-family:'Cinzel',serif;font-size:clamp(.75rem,1.8vw,1rem);color:#e63946;letter-spacing:.12em;animation:restrictedBlink .8s ease-in-out infinite .3s}

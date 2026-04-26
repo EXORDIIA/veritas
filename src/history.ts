@@ -241,11 +241,35 @@ function openRestrictedFlow(desc: string, name: string, img: string, level: stri
   }, 3000);
 }
 
+let traceTimer: ReturnType<typeof setTimeout> | null = null;
+
 function openThreatDetail(desc: string, name: string, img: string, level: string): void {
   const ov = document.getElementById('threatOv') as HTMLElement;
-  (document.getElementById('threatDetailImg')    as HTMLImageElement).src         = img;
-  (document.getElementById('threatDetailLevel')  as HTMLElement).textContent      = `Level ${level}`;
-  (document.getElementById('threatDetailName')   as HTMLElement).textContent      = name;
-  (document.getElementById('threatDetailDesc')   as HTMLElement).textContent      = desc;
+  (document.getElementById('threatDetailImg')    as HTMLImageElement).src     = img;
+  (document.getElementById('threatDetailLevel')  as HTMLElement).textContent  = `Level ${level}`;
+  (document.getElementById('threatDetailName')   as HTMLElement).textContent  = name;
+  (document.getElementById('threatDetailDesc')   as HTMLElement).textContent  = desc;
   ov.style.display = 'flex';
+
+  if (traceTimer) clearTimeout(traceTimer);
+  traceTimer = setTimeout(() => triggerTrace(ov), 5000);
 }
+
+function triggerTrace(threatOv: HTMLElement): void {
+  const traceOv = document.getElementById('traceOv') as HTMLElement;
+  threatOv.style.display = 'none';
+  traceOv.style.display  = 'block';
+
+  setTimeout(() => {
+    traceOv.style.display = 'none';
+  }, 3000);
+}
+
+// Cancel trace if modal closed manually
+document.addEventListener('DOMContentLoaded', () => {
+  const closeTrace = () => {
+    if (traceTimer) { clearTimeout(traceTimer); traceTimer = null; }
+  };
+  document.getElementById('threatClose')?.addEventListener('click', closeTrace);
+  document.getElementById('threatOv')?.addEventListener('click', closeTrace);
+});
