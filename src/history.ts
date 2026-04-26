@@ -55,6 +55,7 @@ function initZoneModal(): void {
     document.body.style.overflow = 'hidden';
   }
   function close() {
+    cancelTrace();
     ov.classList.remove('open');
     document.body.style.overflow = '';
   }
@@ -219,14 +220,13 @@ function initRestrictedCards(): void {
     });
   });
 
-  document.getElementById('threatClose')!.addEventListener('click', () => {
-    (document.getElementById('threatOv') as HTMLElement).style.display = 'none';
-  });
-  document.getElementById('threatOv')!.addEventListener('click', e => {
-    if (e.target === document.getElementById('threatOv')) {
-      (document.getElementById('threatOv') as HTMLElement).style.display = 'none';
-    }
-  });
+  const threatOvEl = document.getElementById('threatOv') as HTMLElement;
+  const closeThreat = () => {
+    cancelTrace();
+    threatOvEl.style.display = 'none';
+  };
+  document.getElementById('threatClose')!.addEventListener('click', closeThreat);
+  threatOvEl.addEventListener('click', e => { if (e.target === threatOvEl) closeThreat(); });
 }
 
 // ── Shared interstitial + trace logic ────────────────────
@@ -252,12 +252,13 @@ function showInterstitial(then: () => void): void {
 function startTraceTimer(closeTarget: HTMLElement): void {
   if (traceTimer) clearTimeout(traceTimer);
   traceTimer = setTimeout(() => {
+    traceTimer = null;
     closeTarget.style.display = 'none';
     closeTarget.classList.remove('open');
     const traceOv = document.getElementById('traceOv') as HTMLElement;
     traceOv.style.display = 'block';
     setTimeout(() => { traceOv.style.display = 'none'; }, 3000);
-  }, 3000);
+  }, 4000);
 }
 
 function cancelTrace(): void {
@@ -290,10 +291,3 @@ function openBlackZoneFlow(card: HTMLElement, openZone: (c: HTMLElement) => void
   });
 }
 
-// Cancel trace on manual close
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('threatClose')?.addEventListener('click', cancelTrace);
-  document.getElementById('threatOv')?.addEventListener('click', cancelTrace);
-  document.getElementById('zoneClose')?.addEventListener('click', cancelTrace);
-  document.getElementById('zoneOv')?.addEventListener('click', cancelTrace);
-});
