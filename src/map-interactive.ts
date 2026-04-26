@@ -89,6 +89,7 @@ export function initMapInteractive(): void {
 
   function buildPins(natW: number, natH: number): void {
     pinsLayer.innerHTML = '';
+    // pinsLayer is now inside mapStage — same coordinate space as mapImg
     pinsLayer.style.cssText = `position:absolute;left:0;top:0;width:${natW}px;height:${natH}px;transform-origin:0 0;pointer-events:none`;
 
     // Sort nations by character count desc for the list

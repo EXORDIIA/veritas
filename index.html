@@ -69,29 +69,35 @@
     </div>
 
     <div class="panel" id="mapPanel">
-      <div id="mapStage">
-        <img id="mapImg" src="/images/MAP.png" alt="Map of Azertya" />
-      </div>
-      <div class="mzoom" id="mzoom">100%</div>
-      <!-- Interactive pins layer (same transform as mapImg) -->
-      <div id="mapPinsLayer"></div>
-      <!-- Nation list panel -->
+
+      <!-- LEFT SIDEBAR: Nations list — fixed, does not overlay the map -->
       <div id="natList" class="nat-list">
         <div class="nat-list-title">Régions</div>
         <div class="nat-list-items" id="natListItems"></div>
       </div>
-      <!-- Nationality popup -->
-      <div id="natPopup" class="nat-popup">
-        <button class="nat-popup-close" id="natPopupClose">&times;</button>
-        <div class="nat-popup-name" id="natPopupName"></div>
-        <div class="nat-popup-faces" id="natPopupFaces"></div>
+
+      <!-- MAP AREA: takes the remaining space -->
+      <div id="mapArea">
+        <div id="mapStage">
+          <img id="mapImg" src="/images/MAP.png" alt="Map of Azertya" />
+          <!-- Pins layer lives inside mapStage so transforms match exactly -->
+          <div id="mapPinsLayer"></div>
+        </div>
+        <div class="mzoom" id="mzoom">100%</div>
+        <div class="mapctl">
+          <button class="mbtn" id="zin" title="Zoom in">+</button>
+          <button class="mbtn" id="zrst" title="Recenter">&#8962;</button>
+          <button class="mbtn" id="zout" title="Zoom out">-</button>
+        </div>
+        <div class="mhint"><span data-i18n="map_hint">Molette&nbsp;: zoom &middot; Glisser&nbsp;: déplacer &middot; Double-clic&nbsp;: recentrer</span></div>
+        <!-- Nationality popup floats inside the map area -->
+        <div id="natPopup" class="nat-popup">
+          <button class="nat-popup-close" id="natPopupClose">&times;</button>
+          <div class="nat-popup-name" id="natPopupName"></div>
+          <div class="nat-popup-faces" id="natPopupFaces"></div>
+        </div>
       </div>
-      <div class="mapctl">
-        <button class="mbtn" id="zin" title="Zoom in">+</button>
-        <button class="mbtn" id="zrst" title="Recenter">&#8962;</button>
-        <button class="mbtn" id="zout" title="Zoom out">-</button>
-      </div>
-      <div class="mhint"><span data-i18n="map_hint">Molette&nbsp;: zoom &middot; Glisser&nbsp;: déplacer &middot; Double-clic&nbsp;: recentrer</span></div>
+
     </div>
 
     <div class="panel" id="ruthlorePanel">

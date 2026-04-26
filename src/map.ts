@@ -1,4 +1,5 @@
 const mapStage  = document.getElementById('mapStage')     as HTMLElement;
+const mapArea   = document.getElementById('mapArea')      as HTMLElement;
 const mapImg    = document.getElementById('mapImg')        as HTMLImageElement;
 const zoomInd   = document.getElementById('mzoom')        as HTMLElement;
 const pinsLayer = document.getElementById('mapPinsLayer') as HTMLElement;
@@ -16,13 +17,18 @@ export function getMapState() { return { mTX, mTY, mScale, natW, natH }; }
 
 export function flyTo(xPct: number, yPct: number, targetScale = 2.2): void {
   if (!natW || !natH) return;
-  const r = mapStage.getBoundingClientRect();
-  const px = (xPct / 100) * natW;
-  const py = (yPct / 100) * natH;
-  mScale = Math.max(mMin, Math.min(mMax, targetScale));
-  mTX = r.width  / 2 - px * mScale;
-  mTY = r.height / 2 - py * mScale;
+  const r   = mapArea.getBoundingClientRect();
+  const px  = (xPct / 100) * natW;
+  const py  = (yPct / 100) * natH;
+  mScale    = Math.max(mMin, Math.min(mMax, targetScale));
+  mTX       = r.width  / 2 - px * mScale;
+  mTY       = r.height / 2 - py * mScale;
+  // Smooth transition then remove so scroll-zoom stays instant
+  const t = 'transform .55s cubic-bezier(.16,1,.3,1)';
+  mapImg.style.transition    = t;
+  pinsLayer.style.transition = t;
   applyMap();
+  setTimeout(() => { mapImg.style.transition = ''; pinsLayer.style.transition = ''; }, 560);
 }
 
 export function centerMap(): void {
