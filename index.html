@@ -213,6 +213,35 @@
     </div>
   </div>
 
+  <!-- RESTRICTED ACCESS INTERSTITIAL -->
+  <div class="ov" id="restrictedOv" style="display:none">
+    <div class="restricted-modal">
+      <div class="restricted-warned">You were warned.</div>
+      <img class="restricted-entity" src="/Zones/ETBUS.png" alt="" />
+      <div class="restricted-disengage">This is your final opportunity to disengage.</div>
+      <div class="restricted-terminate">TERMINATE VIEWING IMMEDIATELY.</div>
+      <p class="restricted-fine">Failure to comply will result in irreversible consequences.<br>Containment protocols are already in motion.<br>There will be no further communication.</p>
+      <div class="restricted-bar"><div class="restricted-bar-fill" id="restrictedFill"></div></div>
+    </div>
+  </div>
+
+  <!-- THREAT DETAIL MODAL (post-interstitial) -->
+  <div class="ov" id="threatOv" style="display:none">
+    <div class="threat-detail-modal">
+      <button class="threat-detail-close" id="threatClose" aria-label="Fermer">&times;</button>
+      <div class="threat-detail-img-wrap">
+        <img id="threatDetailImg" src="" alt="" />
+        <div class="threat-detail-img-overlay"></div>
+      </div>
+      <div class="threat-detail-body">
+        <div class="threat-detail-level" id="threatDetailLevel"></div>
+        <h2 class="threat-detail-name cinzel" id="threatDetailName"></h2>
+        <div class="threat-detail-divider"></div>
+        <p class="threat-detail-desc" id="threatDetailDesc"></p>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

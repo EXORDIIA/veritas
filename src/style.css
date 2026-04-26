@@ -561,3 +561,31 @@ main{position:relative;z-index:1}
   .grid{gap:8px}
   .ciw{height:145px}
 }
+
+/* ── RESTRICTED THREAT CARDS ────────────────────────── */
+.threat-restricted-warning{color:#e63946;font-size:.74rem;line-height:1.55;font-weight:600;letter-spacing:.01em;animation:restrictedBlink 1.4s ease-in-out infinite}
+@keyframes restrictedBlink{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* Restricted interstitial overlay */
+#restrictedOv{background:rgba(0,0,0,.97)}
+.restricted-modal{position:relative;display:flex;flex-direction:column;align-items:center;gap:18px;padding:40px 32px 32px;max-width:520px;width:92%;text-align:center;animation:modalPop .4s var(--ease-back) both}
+.restricted-warned{font-family:'Cinzel',serif;font-size:1.8rem;font-weight:900;color:#e63946;letter-spacing:.15em;text-transform:uppercase;animation:restrictedBlink 1s ease-in-out infinite}
+.restricted-entity{width:160px;height:160px;object-fit:contain;filter:brightness(.9) saturate(.4);border:1px solid rgba(150,0,0,.4);border-radius:8px;background:rgba(20,0,0,.6);padding:12px}
+.restricted-disengage{font-family:'Cinzel',serif;font-size:1rem;color:rgba(220,200,180,.9);letter-spacing:.1em}
+.restricted-terminate{font-family:'Cinzel',serif;font-size:1.3rem;font-weight:900;color:#e63946;letter-spacing:.2em;text-transform:uppercase;animation:restrictedBlink 1s ease-in-out infinite}
+.restricted-fine{font-size:.72rem;color:rgba(180,160,140,.55);line-height:1.7;margin:0}
+.restricted-bar{width:100%;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-top:8px}
+.restricted-bar-fill{height:100%;background:#e63946;border-radius:2px;width:100%;transform-origin:left;transition:none}
+
+/* Threat detail modal */
+.threat-detail-modal{background:var(--surface);border:1px solid rgba(180,0,0,.3);border-radius:18px;width:min(640px,95vw);max-height:90dvh;overflow:hidden;display:flex;flex-direction:column;position:relative;animation:modalPop .48s var(--ease-back) both;box-shadow:0 40px 100px rgba(0,0,0,.9),0 0 0 1px rgba(220,60,60,.12) inset}
+.threat-detail-close{position:absolute;top:14px;right:16px;background:rgba(20,0,0,.7);border:1px solid rgba(180,0,0,.3);color:rgba(220,200,200,.8);border-radius:8px;width:32px;height:32px;font-size:1.2rem;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;line-height:1}
+.threat-detail-close:hover{background:#e63946;color:#fff;border-color:#e63946}
+.threat-detail-img-wrap{position:relative;height:200px;flex-shrink:0;overflow:hidden;background:linear-gradient(160deg,#0d0008,#1a0010)}
+.threat-detail-img-wrap img{width:100%;height:100%;object-fit:contain;padding:16px;filter:saturate(.6) brightness(.85)}
+.threat-detail-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,var(--surface) 100%)}
+.threat-detail-body{padding:20px 28px 28px;display:flex;flex-direction:column;gap:10px}
+.threat-detail-level{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.32em;color:#e63946;font-weight:700;text-transform:uppercase}
+.threat-detail-name{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin:0}
+.threat-detail-divider{height:1px;background:linear-gradient(90deg,rgba(180,0,0,.4),rgba(180,0,0,.1));margin:4px 0}
+.threat-detail-desc{font-size:.88rem;line-height:1.75;color:var(--text2);margin:0}

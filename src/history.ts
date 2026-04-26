@@ -1,6 +1,11 @@
 import { races, zones, threatLevels } from './data/lore';
 import { ZONE_DATA } from './detail-modal';
 
+const RESTRICTED_WARNINGS: Record<number, string> = {
+  8:  `WARNING — UNAUTHORIZED ACCESS PROHIBITED<br><br>You are not authorized to access this document.<br><br>Any attempt to proceed will be automatically detected, logged, and met with immediate execution under Protocol "Margua."<br>There will be no warning beyond this point. No appeals. No recovery.`,
+  10: `CLEARANCE LEVEL: M_XX — ULTRA RESTRICTED<br>Authorization Required: [REDACTED]<br><br>This file contains information classified among the most dangerous ever recorded.<br>Exposure is considered a Level Omega cognitohazard.`,
+};
+
 function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
@@ -167,21 +172,80 @@ export function renderHistory(): void {
         <p>The Azertyan authorities classify all known creatures across ten escalating tiers of threat — from harmless companions to reality-warping entities capable of cosmic destruction.</p>
       </div>
       <div class="threatgrid">
-        ${threatLevels.map(t => `
-          <div class="threat${threatClass(t.level)}">
+        ${threatLevels.map(t => {
+          const warn = RESTRICTED_WARNINGS[t.level];
+          const descHtml = warn
+            ? `<div class="threat-restricted-warning">${warn}</div>`
+            : `<div class="tdesc">${esc(t.desc)}</div>`;
+          const extra = warn ? ` data-restricted="${t.level}" data-realdesc="${encodeURIComponent(t.desc)}" data-name="${esc(t.name)}" data-img="${t.image}"` : '';
+          return `
+          <div class="threat${threatClass(t.level)}"${extra}>
             <div class="threat-img-wrap">
               <img class="card-img" src="${t.image}" alt="${esc(t.name)}" loading="lazy"/>
             </div>
             <div class="threat-info">
               <div class="tlvl">Level ${t.level}</div>
               <div class="tname">${esc(t.name)}</div>
-              <div class="tdesc">${esc(t.desc)}</div>
+              ${descHtml}
             </div>
-          </div>`).join('\n')}
+          </div>`;
+        }).join('\n')}
       </div>
     </div>
   `;
 
   initZoneModal();
   initRaceModal();
+  initRestrictedCards();
+}
+
+function initRestrictedCards(): void {
+  const container = document.getElementById('historyContainer')!;
+
+  container.querySelectorAll<HTMLElement>('.threat[data-restricted]').forEach(card => {
+    card.addEventListener('click', () => {
+      const desc  = decodeURIComponent(card.dataset.realdesc!);
+      const name  = card.dataset.name!;
+      const img   = card.dataset.img!;
+      const level = card.dataset.restricted!;
+      openRestrictedFlow(desc, name, img, level);
+    });
+  });
+
+  document.getElementById('threatClose')!.addEventListener('click', () => {
+    (document.getElementById('threatOv') as HTMLElement).style.display = 'none';
+  });
+  document.getElementById('threatOv')!.addEventListener('click', e => {
+    if (e.target === document.getElementById('threatOv')) {
+      (document.getElementById('threatOv') as HTMLElement).style.display = 'none';
+    }
+  });
+}
+
+function openRestrictedFlow(desc: string, name: string, img: string, level: string): void {
+  const ov   = document.getElementById('restrictedOv') as HTMLElement;
+  const fill = document.getElementById('restrictedFill') as HTMLElement;
+
+  ov.style.display = 'flex';
+  fill.style.transition = 'none';
+  fill.style.transform = 'scaleX(1)';
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    fill.style.transition = 'transform 3s linear';
+    fill.style.transform  = 'scaleX(0)';
+  }));
+
+  setTimeout(() => {
+    ov.style.display = 'none';
+    openThreatDetail(desc, name, img, level);
+  }, 3000);
+}
+
+function openThreatDetail(desc: string, name: string, img: string, level: string): void {
+  const ov = document.getElementById('threatOv') as HTMLElement;
+  (document.getElementById('threatDetailImg')    as HTMLImageElement).src         = img;
+  (document.getElementById('threatDetailLevel')  as HTMLElement).textContent      = `Level ${level}`;
+  (document.getElementById('threatDetailName')   as HTMLElement).textContent      = name;
+  (document.getElementById('threatDetailDesc')   as HTMLElement).textContent      = desc;
+  ov.style.display = 'flex';
 }
